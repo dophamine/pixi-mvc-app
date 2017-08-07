@@ -2,3 +2,56 @@ body {
     padding: 0;
     margin: 0;
 }
+
+.container {
+    text-align: center;
+    padding-top: 50px;
+}
+.game {
+    display: inline-block;
+    text-align: left;
+}
+
+#game-view {
+    border: 1px dashed #333;
+}
+
+.controls {
+    display: inline-block;
+    padding-top: 5px;
+    padding-right: 20px;
+}
+
+.controls label {
+}
+
+.buttons-controls {
+    display: inline-block;
+    font-size: 0;
+    padding: 0px 5px;
+}
+
+.buttons-controls button {
+    font-family: monospace;
+    display: inline-block;
+    font-size: 2rem;
+    border: 2px solid #666;
+    background: #fff;
+    width: 40px;
+    height: 40px;
+    outline: none;
+    color: #447cf0;
+    line-height: 36px;
+    padding: 0;
+}
+
+.buttons-controls button:first-child {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.buttons-controls button:last-child {
+    border-left: none;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}

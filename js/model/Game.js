@@ -3,21 +3,25 @@
     window.Game = Game;
 
     function Game() {
+        // extends class Observable
         Observable.call(this);
         this.cfg = {
             RADIUS: 60,
             shapesPerSec: 0,
             shapeSpawnDelay: 1000,
-            gravityForce: 9.81
+            gravityForce: 9
         };
     }
 
     Game.prototype = Object.create(Observable.prototype);
     Game.prototype.constructor = Game;
 
+
+    // Game logic
     Game.prototype.init = function () {
         this.startShapeSpawning();
 
+        // notify observers with init values
         this.emit('gravityForceChange', {gravityForce: this.cfg.gravityForce});
         this.emit('shapesPerSecChange', {shapesPerSec: this.cfg.shapesPerSec});
         this.calcShapesArea();
@@ -37,6 +41,7 @@
         }, self.cfg.shapeSpawnDelay);
     };
 
+    // stop spawning shapes (for future)
     Game.prototype.stopShapeSpawning = function () {
         var self = this;
         clearInterval(self._shapesSpawnTimerId);
@@ -83,17 +88,20 @@
     };
     
     Game.prototype.instantiateShape = function (position) {
+        // TODO Refactor it
         var self = this;
-        var shapeType = getRandomIntInRange(1, 6);
     
         if (!position) {
+            // add start position
             position = {
                 x: getRandomInRange(self.cfg.RADIUS, self.world.renderer.width - self.cfg.RADIUS),
-                y: -(this.cfg.RADIUS + getRandomInRange(0, 200))
+                y: -(this.cfg.RADIUS)
             };
         }
 
         var shape;
+        // random shape generator
+        var shapeType = getRandomIntInRange(1, 6);
         switch(shapeType) {
             case 1:
             case 2:
@@ -112,12 +120,14 @@
                 break;
         }
 
+        // add init velocityY
         shape.velocityY = 0;
-
+        // notify observers with new data
         self.emit('instantiateShape', shape);
         self.calcShapesArea();
         self.calcShapesNumber();
 
+        // shape creators
         function createCircle(pos) {
             var graphics = new PIXI.Graphics();
             // surface area of shape

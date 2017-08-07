@@ -24,7 +24,7 @@
         this.app.renderer.view.style.left = "50%";
         this.app.renderer.view.style.transform = "translate(-50%, -50%)";
         this.app.renderer.view.style.border = "1px dashed #333";
-        document.querySelector('.game').appendChild(this.app.renderer.view);
+        document.querySelector('#game-view').appendChild(this.app.renderer.view);
     }
 
     View.prototype.initialize = function () {
@@ -64,6 +64,20 @@
             var element = document.getElementById('area-of-shapes');
             if (element) {
                 element.value = Math.floor(e.shapesArea);
+            }
+        });
+        
+        self.game.addObserver('shapesPerSecChange', function shapesPerSecChangeObserver(e) {
+            var element = document.getElementById('shape-spawn-speed');
+            if (element) {
+                element.value = e.shapesPerSec;
+            }
+        });
+        
+        self.game.addObserver('gravityForceChange', function gravityForceChangeObserver(e) {
+            var element = document.getElementById('gravity-value');
+            if (element) {
+                element.value = e.gravityForce;
             }
         });
     }

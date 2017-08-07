@@ -6,7 +6,7 @@
         Observable.call(this);
         this.cfg = {
             RADIUS: 60,
-            itemsPerSec: 0,
+            shapesPerSec: 0,
             shapeSpawnDelay: 1000,
             gravityForce: 9.81
         };
@@ -17,6 +17,11 @@
 
     Game.prototype.init = function () {
         this.startShapeSpawning();
+
+        this.emit('gravityForceChange', {gravityForce: this.cfg.gravityForce});
+        this.emit('shapesPerSecChange', {shapesPerSec: this.cfg.shapesPerSec});
+        this.calcShapesArea();
+        this.calcShapesNumber();
     };
     
     Game.prototype.registerWorld = function (world) {
@@ -39,22 +44,42 @@
     }
 
     Game.prototype.spawnManyShapes = function () {
-        for (var i=0; i < this.cfg.itemsPerSec; i++) {
+        for (var i=0; i < this.cfg.shapesPerSec; i++) {
             this.instantiateShape();
         }
     }
 
     Game.prototype.calcShapesNumber = function () {
         this.emit('shapesNumberChange', {shapesNumber: this.world.stage.children.length});
-        console.log(this.world.stage.children.length);
     };
     
     Game.prototype.calcShapesArea = function () {
         var area = this.world.stage.children.reduce(function(prev, current) {
             return prev + current.area;
         },  0);
-        console.log(area);
         this.emit('shapesAreaChange', {shapesArea: area});
+    };
+
+    Game.prototype.incShapesSpawningSpeed = function () {
+        this.cfg.shapesPerSec += 1;
+        this.emit('shapesPerSecChange', {shapesPerSec: this.cfg.shapesPerSec});
+    };
+    
+    Game.prototype.decShapesSpawningSpeed = function () {
+        var shapesPerSec = this.cfg.shapesPerSec - 1;
+        // prevent negative values
+        this.cfg.shapesPerSec = shapesPerSec >= 0 ? shapesPerSec : 0;
+        this.emit('shapesPerSecChange', {shapesPerSec: this.cfg.shapesPerSec});
+    };
+    
+    Game.prototype.incGravity = function () {
+        this.cfg.gravityForce += 1;
+        this.emit('gravityForceChange', {gravityForce: this.cfg.gravityForce});
+    };
+    
+    Game.prototype.decGravity = function () {
+        this.cfg.gravityForce -= 1;
+        this.emit('gravityForceChange', {gravityForce: this.cfg.gravityForce});
     };
     
     Game.prototype.instantiateShape = function (position) {

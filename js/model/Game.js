@@ -7,7 +7,7 @@
         Observable.call(this);
         this.cfg = {
             RADIUS: 60,
-            shapesPerSec: 0,
+            shapesPerSec: 15,
             shapeSpawnDelay: 1000,
             gravityForce: 9
         };

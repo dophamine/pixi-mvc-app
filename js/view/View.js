@@ -88,14 +88,16 @@
         // iterate objects in stage and animate falling
         this.app.stage.children.forEach(function(shape) {
             // auto destroy shapes
-            if (shape && shape.position.y - self.game.cfg.RADIUS*2 > self.app.renderer.height/self.app.renderer.resolution) {
-                self.game.removeShape(shape);
-                return;
+            if (shape) {
+                if (shape.position.y - self.game.cfg.RADIUS*2 > self.app.renderer.height/self.app.renderer.resolution) {
+                    self.game.removeShape(shape);
+                    return;
+                }
+                // calc vertical velocity and store it in a shape
+                shape.velocityY += self.game.cfg.gravityForce * delta * PIXELS_PER_METER;
+                // update position by add (velocity/fps)
+                shape.position.y += shape.velocityY / 1000/delta;
             }
-            // calc vertical velocity and store it in a shape
-            shape.velocityY += self.game.cfg.gravityForce * delta * PIXELS_PER_METER;
-            // update position by add (velocity/fps)
-            shape.position.y += shape.velocityY / 1000/delta;
         });
     }
 

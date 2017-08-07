@@ -54,7 +54,7 @@
             return prev + current.area;
         },  0);
         console.log(area);
-        this.emit('shapesAreaChange', {area: area});
+        this.emit('shapesAreaChange', {shapesArea: area});
     };
     
     Game.prototype.instantiateShape = function (position) {
@@ -138,9 +138,9 @@
 
     Game.prototype.removeShape = function (shape) {
         var self = this;
+        shape.destroy();
         self.calcShapesArea();
         self.calcShapesNumber();
-        shape.destroy();
     }
 
 })();

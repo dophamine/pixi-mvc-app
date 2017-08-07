@@ -53,11 +53,17 @@
             }
         });
         
-        self.game.addObserver('instantiateShape', function instantiateShapeObserver(shape) {
-            if (shape) {
-                shape.interactive = true;
-                self.controller.registerNewShape(shape);
-                self.app.stage.addChild(shape);
+        self.game.addObserver('shapesNumberChange', function shapesNumberChangeObserver(e) {
+            var element = document.getElementById('number-of-shapes');
+            if (element) {
+                element.value = e.shapesNumber;
+            }
+        });
+        
+        self.game.addObserver('shapesAreaChange', function shapesAreaChangeObserver(e) {
+            var element = document.getElementById('area-of-shapes');
+            if (element) {
+                element.value = Math.floor(e.shapesArea);
             }
         });
     }

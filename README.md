@@ -1,3 +1,1 @@
-# gamedev-test
-
-Test Pixi MVC application
+# Pixi MVC application
